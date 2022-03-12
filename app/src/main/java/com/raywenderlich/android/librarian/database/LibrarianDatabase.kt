@@ -4,11 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.raywenderlich.android.librarian.model.Book
 
 const val DATABASE_VERSION = 1
 
 @Database(
-    entities = [],
+    entities = [Book::class],
     version = DATABASE_VERSION
 )
 abstract class LibrarianDatabase : RoomDatabase() {
