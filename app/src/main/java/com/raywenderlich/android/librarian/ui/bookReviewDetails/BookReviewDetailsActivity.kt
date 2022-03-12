@@ -40,20 +40,19 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.raywenderlich.android.librarian.App
 import com.raywenderlich.android.librarian.R
-import com.raywenderlich.android.librarian.model.Genre
 import com.raywenderlich.android.librarian.model.ReadingEntry
 import com.raywenderlich.android.librarian.model.relations.BookReview
 import com.raywenderlich.android.librarian.ui.bookReviewDetails.readingEntries.AddReadingEntryDialogFragment
 import com.raywenderlich.android.librarian.ui.bookReviewDetails.readingEntries.ReadingEntryAdapter
 import com.raywenderlich.android.librarian.utils.createAndShowDialog
-import com.raywenderlich.android.librarian.utils.formatDateToText
 import com.raywenderlich.android.librarian.utils.toast
 import kotlinx.android.synthetic.main.activity_book_review_details.*
-import java.util.*
 
 class BookReviewDetailsActivity : AppCompatActivity() {
 
+  private val repository by lazy { App.repository }
   private var bookReview: BookReview? = null
   private val adapter by lazy { ReadingEntryAdapter(::onItemLongTapped) }
 
@@ -94,11 +93,10 @@ class BookReviewDetailsActivity : AppCompatActivity() {
     displayData(reviewId)
   }
 
-  // TODO fetch genre data
   private fun displayData(reviewId: String) {
     refreshData(reviewId)
     val data = bookReview ?: return
-    val genre = Genre(data.book.genreId, "")
+    val genre = repository.getGenreById(data.book.genreId)
 
     Glide.with(this).load(data.review.imageUrl).into(bookImage)
     reviewTitle.text = data.book.name
@@ -111,9 +109,7 @@ class BookReviewDetailsActivity : AppCompatActivity() {
   }
 
   private fun refreshData(id: String) {
-    return
-    val storedReview = null // TODO fetch review
-
+    val storedReview = repository.getReviewById(id)
     bookReview = storedReview
   }
 

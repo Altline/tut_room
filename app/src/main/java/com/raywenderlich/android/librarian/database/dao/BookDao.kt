@@ -10,6 +10,9 @@ interface BookDao {
     @Query("SELECT * FROM books")
     fun getBooks(): List<Book>
 
+    @Query("SELECT * FROM books WHERE id = :bookId")
+    fun getBookById(bookId: String): Book
+
     @Insert(onConflict = REPLACE)
     fun addBook(book: Book)
 
