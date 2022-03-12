@@ -15,8 +15,6 @@ class LibrarianRepositoryImpl(
     private val reviewDao: ReviewDao
 ) : LibrarianRepository {
 
-    override fun addBook(book: Book) = bookDao.addBook(book)
-
     override fun getBooks(): List<BookAndGenre> = bookDao.getBooks().map {
         BookAndGenre(it, genreDao.getGenreById(it.genreId))
     }
@@ -24,4 +22,8 @@ class LibrarianRepositoryImpl(
     override fun getGenres(): List<Genre> = genreDao.getGenres()
 
     override fun getGenreById(genreId: String): Genre = genreDao.getGenreById(genreId)
+
+    override fun addBook(book: Book) = bookDao.addBook(book)
+
+    override fun addGenres(genres: List<Genre>) = genreDao.addGenres(genres)
 }

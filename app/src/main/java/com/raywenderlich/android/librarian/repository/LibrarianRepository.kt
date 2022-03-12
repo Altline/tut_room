@@ -6,11 +6,13 @@ import com.raywenderlich.android.librarian.model.relations.BookAndGenre
 
 interface LibrarianRepository {
 
-    fun addBook(book: Book)
-
     fun getBooks(): List<BookAndGenre>
 
     fun getGenres(): List<Genre>
 
     fun getGenreById(genreId: String): Genre
+
+    fun addBook(book: Book)
+
+    fun addGenres(genres: List<Genre>)
 }
