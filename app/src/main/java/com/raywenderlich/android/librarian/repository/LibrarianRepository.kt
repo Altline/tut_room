@@ -31,6 +31,7 @@ interface LibrarianRepository {
     fun removeReview(review: Review)
 
     suspend fun getReadingLists(): List<ReadingListsWithBooks>
+    fun getReadingListsFlow(): Flow<List<ReadingListsWithBooks>>
     suspend fun addReadingList(readingList: ReadingList)
     suspend fun removeReadingList(readingList: ReadingList)
 }
