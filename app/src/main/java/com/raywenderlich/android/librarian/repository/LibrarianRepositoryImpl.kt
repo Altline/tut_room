@@ -21,6 +21,12 @@ class LibrarianRepositoryImpl(
 
     override fun getBooks(): List<BookAndGenre> = bookDao.getBooks()
     override fun getBookById(bookId: String): Book = bookDao.getBookById(bookId)
+    override fun getBooksByGenre(genreId: String): List<BookAndGenre> =
+        genreDao.getBooksByGenre(genreId).let { booksByGenre ->
+            val books = booksByGenre.books ?: emptyList()
+            books.map { BookAndGenre(it, booksByGenre.genre) }
+        }
+
     override fun addBook(book: Book) = bookDao.addBook(book)
     override fun removeBook(book: Book) = bookDao.removeBook(book)
 
@@ -31,16 +37,24 @@ class LibrarianRepositoryImpl(
     override fun getReviews(): List<BookReview> = reviewDao.getReviews().map {
         BookReview(it, bookDao.getBookById(it.bookId))
     }
-    override fun getReviewById(reviewId: String): BookReview = reviewDao.getReviewById(reviewId).let {
-        BookReview(it, bookDao.getBookById(it.bookId))
-    }
+
+    override fun getReviewById(reviewId: String): BookReview =
+        reviewDao.getReviewById(reviewId).let {
+            BookReview(it, bookDao.getBookById(it.bookId))
+        }
+
     override fun addReview(review: Review) = reviewDao.addReview(review)
     override fun updateReview(review: Review) = reviewDao.updateReview(review)
     override fun removeReview(review: Review) = reviewDao.removeReview(review)
 
-    override fun getReadingLists(): List<ReadingListsWithBooks> = readingListDao.getReadingLists().map {
-        ReadingListsWithBooks(it.id, it.name, emptyList())
-    }
-    override fun addReadingList(readingList: ReadingList) = readingListDao.addReadingList(readingList)
-    override fun removeReadingList(readingList: ReadingList) = readingListDao.removeReadingList(readingList)
+    override fun getReadingLists(): List<ReadingListsWithBooks> =
+        readingListDao.getReadingLists().map {
+            ReadingListsWithBooks(it.id, it.name, emptyList())
+        }
+
+    override fun addReadingList(readingList: ReadingList) =
+        readingListDao.addReadingList(readingList)
+
+    override fun removeReadingList(readingList: ReadingList) =
+        readingListDao.removeReadingList(readingList)
 }

@@ -12,6 +12,7 @@ interface LibrarianRepository {
 
     fun getBooks(): List<BookAndGenre>
     fun getBookById(bookId: String): Book
+    fun getBooksByGenre(genreId: String): List<BookAndGenre>
     fun addBook(book: Book)
     fun removeBook(book: Book)
 
