@@ -47,6 +47,7 @@ import com.raywenderlich.android.librarian.model.relations.BookReview
 import com.raywenderlich.android.librarian.ui.bookReviewDetails.readingEntries.AddReadingEntryDialogFragment
 import com.raywenderlich.android.librarian.ui.bookReviewDetails.readingEntries.ReadingEntryAdapter
 import com.raywenderlich.android.librarian.utils.createAndShowDialog
+import com.raywenderlich.android.librarian.utils.formatDateToText
 import com.raywenderlich.android.librarian.utils.toast
 import kotlinx.android.synthetic.main.activity_book_review_details.*
 
@@ -102,7 +103,7 @@ class BookReviewDetailsActivity : AppCompatActivity() {
     reviewTitle.text = data.book.name
     reviewRating.rating = data.review.rating.toFloat()
     reviewDescription.text = data.review.notes
-//    lastUpdated.text = formatDateToText(data.review.lastUpdatedDate)
+    lastUpdated.text = formatDateToText(data.review.lastUpdatedDate)
     bookGenre.text = genre.name
 
 //    adapter.setData(data.review.entries)
