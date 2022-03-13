@@ -19,7 +19,7 @@ class LibrarianRepositoryImpl(
     private val reviewDao: ReviewDao
 ) : LibrarianRepository {
 
-    override fun getBooks(): List<BookAndGenre> = bookDao.getBooks()
+    override suspend fun getBooks(): List<BookAndGenre> = bookDao.getBooks()
     override fun getBookById(bookId: String): Book = bookDao.getBookById(bookId)
     override fun getBooksByGenre(genreId: String): List<BookAndGenre> =
         genreDao.getBooksByGenre(genreId).let { booksByGenre ->
@@ -30,8 +30,8 @@ class LibrarianRepositoryImpl(
         reviewDao.getReviewsByRating(rating).distinctBy { it.book }.map {
             BookAndGenre(it.book, genreDao.getGenreById(it.book.genreId))
         }
-    override fun addBook(book: Book) = bookDao.addBook(book)
-    override fun removeBook(book: Book) = bookDao.removeBook(book)
+    override suspend fun addBook(book: Book) = bookDao.addBook(book)
+    override suspend fun removeBook(book: Book) = bookDao.removeBook(book)
 
     override fun getGenres(): List<Genre> = genreDao.getGenres()
     override fun getGenreById(genreId: String): Genre = genreDao.getGenreById(genreId)

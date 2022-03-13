@@ -9,14 +9,14 @@ import com.raywenderlich.android.librarian.model.relations.BookAndGenre
 interface BookDao {
 
     @Query("SELECT * FROM books")
-    fun getBooks(): List<BookAndGenre>
+    suspend fun getBooks(): List<BookAndGenre>
 
     @Query("SELECT * FROM books WHERE id = :bookId")
     fun getBookById(bookId: String): Book
 
     @Insert(onConflict = REPLACE)
-    fun addBook(book: Book)
+    suspend fun addBook(book: Book)
 
     @Delete
-    fun removeBook(book: Book)
+    suspend fun removeBook(book: Book)
 }

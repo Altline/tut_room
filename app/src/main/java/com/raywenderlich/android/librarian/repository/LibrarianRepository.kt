@@ -10,12 +10,12 @@ import com.raywenderlich.android.librarian.model.relations.ReadingListsWithBooks
 
 interface LibrarianRepository {
 
-    fun getBooks(): List<BookAndGenre>
+    suspend fun getBooks(): List<BookAndGenre>
     fun getBookById(bookId: String): Book
     fun getBooksByGenre(genreId: String): List<BookAndGenre>
     fun getBooksByRating(rating: Int): List<BookAndGenre>
-    fun addBook(book: Book)
-    fun removeBook(book: Book)
+    suspend fun addBook(book: Book)
+    suspend fun removeBook(book: Book)
 
     fun getGenres(): List<Genre>
     fun getGenreById(genreId: String): Genre
