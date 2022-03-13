@@ -45,6 +45,7 @@ import com.raywenderlich.android.librarian.R
 import com.raywenderlich.android.librarian.model.Book
 import com.raywenderlich.android.librarian.ui.addBook.AddBookActivity
 import com.raywenderlich.android.librarian.ui.filter.ByGenre
+import com.raywenderlich.android.librarian.ui.filter.ByRating
 import com.raywenderlich.android.librarian.ui.filter.Filter
 import com.raywenderlich.android.librarian.ui.filter.FilterPickerDialogFragment
 import com.raywenderlich.android.librarian.utils.createAndShowDialog
@@ -101,6 +102,7 @@ class BooksFragment : Fragment() {
 
     val books = when (val currentFilter = filter) {
       is ByGenre -> repository.getBooksByGenre(currentFilter.genreId)
+      is ByRating -> repository.getBooksByRating(currentFilter.rating)
       else -> repository.getBooks()
     }
 

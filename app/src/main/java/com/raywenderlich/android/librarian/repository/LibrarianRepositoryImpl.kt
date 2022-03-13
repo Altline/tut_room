@@ -26,7 +26,10 @@ class LibrarianRepositoryImpl(
             val books = booksByGenre.books ?: emptyList()
             books.map { BookAndGenre(it, booksByGenre.genre) }
         }
-
+    override fun getBooksByRating(rating: Int): List<BookAndGenre> =
+        reviewDao.getReviewsByRating(rating).distinctBy { it.book }.map {
+            BookAndGenre(it.book, genreDao.getGenreById(it.book.genreId))
+        }
     override fun addBook(book: Book) = bookDao.addBook(book)
     override fun removeBook(book: Book) = bookDao.removeBook(book)
 
@@ -34,15 +37,9 @@ class LibrarianRepositoryImpl(
     override fun getGenreById(genreId: String): Genre = genreDao.getGenreById(genreId)
     override fun addGenres(genres: List<Genre>) = genreDao.addGenres(genres)
 
-    override fun getReviews(): List<BookReview> = reviewDao.getReviews().map {
-        BookReview(it, bookDao.getBookById(it.bookId))
-    }
-
-    override fun getReviewById(reviewId: String): BookReview =
-        reviewDao.getReviewById(reviewId).let {
-            BookReview(it, bookDao.getBookById(it.bookId))
-        }
-
+    override fun getReviews(): List<BookReview> = reviewDao.getReviews()
+    override fun getReviewById(reviewId: String): BookReview = reviewDao.getReviewById(reviewId)
+    override fun getReviewByRating(rating: Int): List<BookReview> = reviewDao.getReviewsByRating(rating)
     override fun addReview(review: Review) = reviewDao.addReview(review)
     override fun updateReview(review: Review) = reviewDao.updateReview(review)
     override fun removeReview(review: Review) = reviewDao.removeReview(review)
