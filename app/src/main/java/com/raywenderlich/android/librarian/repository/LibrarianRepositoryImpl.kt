@@ -19,10 +19,7 @@ class LibrarianRepositoryImpl(
     private val reviewDao: ReviewDao
 ) : LibrarianRepository {
 
-    override fun getBooks(): List<BookAndGenre> = bookDao.getBooks().map {
-        BookAndGenre(it, genreDao.getGenreById(it.genreId))
-    }
-
+    override fun getBooks(): List<BookAndGenre> = bookDao.getBooks()
     override fun getBookById(bookId: String): Book = bookDao.getBookById(bookId)
     override fun addBook(book: Book) = bookDao.addBook(book)
     override fun removeBook(book: Book) = bookDao.removeBook(book)
