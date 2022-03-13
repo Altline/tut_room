@@ -11,11 +11,11 @@ import com.raywenderlich.android.librarian.model.ReadingList
 interface ReadingListDao {
 
     @Query("SELECT * FROM readinglist")
-    fun getReadingLists(): List<ReadingList>
+    suspend fun getReadingLists(): List<ReadingList>
 
     @Insert(onConflict = REPLACE)
-    fun addReadingList(readingList: ReadingList)
+    suspend fun addReadingList(readingList: ReadingList)
 
     @Delete
-    fun removeReadingList(readingList: ReadingList)
+    suspend fun removeReadingList(readingList: ReadingList)
 }

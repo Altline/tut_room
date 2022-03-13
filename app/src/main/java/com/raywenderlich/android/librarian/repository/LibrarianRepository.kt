@@ -28,7 +28,7 @@ interface LibrarianRepository {
     fun updateReview(review: Review)
     fun removeReview(review: Review)
 
-    fun getReadingLists(): List<ReadingListsWithBooks>
-    fun addReadingList(readingList: ReadingList)
-    fun removeReadingList(readingList: ReadingList)
+    suspend fun getReadingLists(): List<ReadingListsWithBooks>
+    suspend fun addReadingList(readingList: ReadingList)
+    suspend fun removeReadingList(readingList: ReadingList)
 }
