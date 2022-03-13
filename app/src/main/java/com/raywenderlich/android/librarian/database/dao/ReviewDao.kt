@@ -4,12 +4,16 @@ import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
 import com.raywenderlich.android.librarian.model.Review
 import com.raywenderlich.android.librarian.model.relations.BookReview
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ReviewDao {
 
     @Query("SELECT * FROM review")
     fun getReviews(): List<BookReview>
+
+    @Query("SELECT * FROM review")
+    fun getReviewsFlow(): Flow<List<BookReview>>
 
     @Query("SELECT * FROM review WHERE id = :reviewId")
     fun getReviewById(reviewId: String): BookReview

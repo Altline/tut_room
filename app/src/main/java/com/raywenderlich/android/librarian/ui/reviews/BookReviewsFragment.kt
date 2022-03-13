@@ -39,6 +39,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.raywenderlich.android.librarian.App
 import com.raywenderlich.android.librarian.R
@@ -47,6 +48,9 @@ import com.raywenderlich.android.librarian.ui.addReview.AddBookReviewActivity
 import com.raywenderlich.android.librarian.ui.bookReviewDetails.BookReviewDetailsActivity
 import com.raywenderlich.android.librarian.utils.createAndShowDialog
 import kotlinx.android.synthetic.main.fragment_reviews.*
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 /**
  * Fetches and displays notes from the API.
@@ -57,6 +61,7 @@ class BookReviewsFragment : Fragment() {
 
   private val repository by lazy { App.repository }
   private val adapter by lazy { BookReviewAdapter(::onItemSelected, ::onItemLongTapped) }
+  private val bookReviewsFlow by lazy { repository.getReviewsFlow() }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
       savedInstanceState: Bundle?): View? {
@@ -73,6 +78,7 @@ class BookReviewsFragment : Fragment() {
   private fun initUi() {
     reviewsRecyclerView.layoutManager = LinearLayoutManager(context)
     reviewsRecyclerView.adapter = adapter
+    pullToRefresh.isEnabled = false
   }
 
   private fun initListeners() {
@@ -81,8 +87,6 @@ class BookReviewsFragment : Fragment() {
           AddBookReviewActivity.getIntent(requireContext()), REQUEST_CODE_ADD_REVIEW
       )
     }
-
-    pullToRefresh.setOnRefreshListener { loadBookReviews() }
   }
 
   private fun onItemSelected(item: BookReview) {
@@ -98,11 +102,13 @@ class BookReviewsFragment : Fragment() {
 
   private fun removeReviewFromRepo(item: BookReview) {
     repository.removeReview(item.review)
-    loadBookReviews()
   }
 
-  private fun loadBookReviews() {
-    adapter.setData(repository.getReviews())
-    pullToRefresh.isRefreshing = false
+  private fun loadBookReviews() = lifecycleScope.launch {
+    bookReviewsFlow.catch {
+      it.printStackTrace()
+    }.collect {
+      adapter.setData(it)
+    }
   }
 }

@@ -11,6 +11,7 @@ import com.raywenderlich.android.librarian.model.Review
 import com.raywenderlich.android.librarian.model.relations.BookAndGenre
 import com.raywenderlich.android.librarian.model.relations.BookReview
 import com.raywenderlich.android.librarian.model.relations.ReadingListsWithBooks
+import kotlinx.coroutines.flow.Flow
 
 class LibrarianRepositoryImpl(
     private val bookDao: BookDao,
@@ -38,6 +39,7 @@ class LibrarianRepositoryImpl(
     override fun addGenres(genres: List<Genre>) = genreDao.addGenres(genres)
 
     override fun getReviews(): List<BookReview> = reviewDao.getReviews()
+    override fun getReviewsFlow(): Flow<List<BookReview>> = reviewDao.getReviewsFlow()
     override fun getReviewById(reviewId: String): BookReview = reviewDao.getReviewById(reviewId)
     override fun getReviewByRating(rating: Int): List<BookReview> = reviewDao.getReviewsByRating(rating)
     override fun addReview(review: Review) = reviewDao.addReview(review)

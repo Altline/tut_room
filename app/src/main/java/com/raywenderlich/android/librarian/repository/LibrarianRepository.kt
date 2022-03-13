@@ -7,6 +7,7 @@ import com.raywenderlich.android.librarian.model.Review
 import com.raywenderlich.android.librarian.model.relations.BookAndGenre
 import com.raywenderlich.android.librarian.model.relations.BookReview
 import com.raywenderlich.android.librarian.model.relations.ReadingListsWithBooks
+import kotlinx.coroutines.flow.Flow
 
 interface LibrarianRepository {
 
@@ -22,6 +23,7 @@ interface LibrarianRepository {
     fun addGenres(genres: List<Genre>)
 
     fun getReviews(): List<BookReview>
+    fun getReviewsFlow(): Flow<List<BookReview>>
     fun getReviewById(reviewId: String): BookReview
     fun getReviewByRating(rating: Int): List<BookReview>
     fun addReview(review: Review)
