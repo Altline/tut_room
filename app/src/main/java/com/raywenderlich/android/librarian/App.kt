@@ -35,6 +35,7 @@
 package com.raywenderlich.android.librarian
 
 import android.app.Application
+import com.google.gson.Gson
 import com.raywenderlich.android.librarian.database.LibrarianDatabase
 import com.raywenderlich.android.librarian.model.Genre
 import com.raywenderlich.android.librarian.repository.LibrarianRepository
@@ -44,6 +45,8 @@ class App : Application() {
 
   companion object {
     private lateinit var instance: App
+
+    val gson by lazy { Gson() }
 
     private val database: LibrarianDatabase by lazy {
       LibrarianDatabase.buildDatabase(instance)
